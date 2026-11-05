@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE LAST VOICEMAIL</title>
+<style>
+:root{--bg:#2a1b12;--bg2:#3b271a;--paper:#e9d8b4;--ink:#3a2616;--gold:#d4a73a;--gold2:#f1cf6b;--ok:#4f8a4b;--bad:#a8432f;--x:50%;--y:40%;--blur:0px}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at top,var(--bg2),var(--bg));color:var(--paper);font-family:"Courier New","Amiri","Traditional Arabic",serif;line-height:1.8;display:flex;justify-content:center;padding:16px}
+.wrap{width:100%;max-width:560px;filter:blur(var(--blur));transition:filter 1.2s}
+#dark{display:none;position:fixed;inset:0;pointer-events:none;z-index:50;background:radial-gradient(circle 260px at var(--x) var(--y),transparent 0,transparent 45%,rgba(10,5,2,.8) 100%)}
+body.dim #dark{display:block}
+.stage{display:none;animation:fade .6s ease}
+.stage.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1{font-size:2rem;letter-spacing:3px;text-align:center;color:var(--gold2);margin:24px 0 8px;direction:ltr;text-shadow:0 2px 0 #000}
+h2{color:var(--gold2);text-align:center;margin:12px 0}
+.tag{text-align:center;font-size:.85rem;color:var(--gold);letter-spacing:2px;direction:ltr}
+.card{background:var(--paper);color:var(--ink);border:2px solid var(--gold);border-radius:6px;padding:18px;margin:14px 0;box-shadow:0 6px 18px #0008;position:relative}
+.center{text-align:center}
+.btn{display:block;width:100%;margin:12px 0;padding:14px;font:inherit;font-weight:bold;font-size:1.05rem;background:linear-gradient(#f1cf6b,#b98a22);color:#2a1b12;border:2px solid #7a5a12;border-radius:6px;cursor:pointer;box-shadow:0 4px 0 #6a4c10}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #6a4c10}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.progress{display:flex;gap:6px;margin:6px 0 14px}
+.progress i{flex:1;height:6px;background:#0005;border-radius:3px}
+.progress i.f{background:var(--gold)}
+.cass{width:200px;height:110px;margin:10px auto;background:#5a3b22;border:3px solid var(--gold);border-radius:10px;position:relative;box-shadow:0 6px 14px #000a}
+.cass:before{content:"";position:absolute;left:30px;right:30px;bottom:10px;height:26px;background:#2a1b12;border-radius:4px}
+.reel{position:absolute;top:22px;width:48px;height:48px;border-radius:50%;background:#e9d8b4;border:6px dashed #2a1b12}
+.reel.l{left:28px}.reel.r{right:28px}
+.cass.play .reel{animation:spin 1.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ev{cursor:pointer;background:#cdb88c;border:2px dashed var(--bg2);border-radius:6px;padding:16px;margin:10px 0;text-align:center;color:var(--ink);font-weight:bold}
+.ev.open{background:var(--paper);border-style:solid;border-color:var(--gold);text-align:right;font-weight:normal}
+.ev b{display:block;color:#7a4a12}
+.opt{display:block;width:100%;text-align:right;margin:8px 0;padding:12px;font:inherit;background:#f6ead0;color:var(--ink);border:2px solid #9b7b3c;border-radius:6px;cursor:pointer}
+.opt.right{background:#cfe6c8;border-color:var(--ok)}
+.opt.wrong{background:#efc9bf;border-color:var(--bad)}
+.fb{margin-top:10px;padding:10px;border-radius:6px;background:#0001;font-size:.95rem}
+ul{padding-inline-start:20px}
+.vm{font-size:1.15rem;min-height:110px}
+.vm s{text-decoration:none;color:#8b6b3c;background:#8b6b3c;border-radius:3px;letter-spacing:-1px}
+.sl{width:100%;accent-color:#b98a22;direction:ltr}
+.lab{display:flex;justify-content:space-between;font-size:.85rem;color:var(--gold)}
+.stamp{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-14deg) scale(3);opacity:0;border:5px solid #b3261e;color:#b3261e;font-weight:bold;font-size:1.8rem;padding:4px 16px;border-radius:6px;direction:ltr;letter-spacing:3px;pointer-events:none}
+.stamp.hit{animation:stamp .35s ease-out forwards}
+@keyframes stamp{to{transform:translate(-50%,-50%) rotate(-14deg) scale(1);opacity:.9}}
+.inp{width:100%;padding:12px;font:inherit;font-size:1.1rem;text-align:center;border:2px solid var(--gold);border-radius:6px;background:var(--paper);color:var(--ink)}
+.cert{border:4px double var(--gold);background:#f3e6c4;color:var(--ink);text-align:center;padding:26px 14px;border-radius:8px;box-shadow:0 8px 24px #000a}
+.cert .big{font-size:1.6rem;color:#7a4a12;font-weight:bold;direction:ltr;margin:8px 0}
+.cert .nm{font-size:1.8rem;font-weight:bold;margin:10px 0;border-bottom:2px solid var(--gold);display:inline-block;padding:0 14px}
+.seal{font-size:3rem}
+.ft{margin:26px 0 8px;padding-top:10px;border-top:1px solid #d4a73a55;text-align:center;font-size:.78rem;color:var(--gold);line-height:1.7}
+.hint{font-size:.8rem;text-align:center;color:var(--gold);margin-top:8px}
+</style>
+</head>
+<body>
+<div id="dark"></div>
+<div class="wrap">
+
+<section class="stage on" id="s1">
+  <div class="tag">CASE FILE · AUDIO ARCHIVE</div>
+  <h1>THE LAST VOICEMAIL</h1>
+  <div class="cass"><div class="reel l"></div><div class="reel r"></div></div>
+  <div class="card center" id="intro" style="min-height:90px"></div>
+  <button class="btn" onclick="go(2)">Start Investigation</button>
+  <div class="hint">🔦 حركي إصبعك على الشاشة لتضيئي المكان</div>
+</section>
+
+<section class="stage" id="s2">
+  <div class="progress"><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i></div>
+  <h2>The Voicemail</h2>
+  <div class="cass" id="cass"><div class="reel l"></div><div class="reel r"></div></div>
+  <div class="card vm" id="vm"></div>
+  <button class="btn" onclick="playVoice()">▶ تشغيل الرسالة</button>
+  <div class="card">
+    <b>🎚 فلتر الضوضاء</b>
+    <p style="margin:4px 0;font-size:.9rem">الضجيج يغطي على الكلام. اسحبي المؤشر لإزالة الضوضاء وكشف الرسالة كاملة.</p>
+    <input type="range" class="sl" id="sl" min="0" max="100" value="100" oninput="setNoise(this.value)">
+    <div class="lab"><span>ضجيج عالٍ</span><span>صوت واضح</span></div>
+  </div>
+  <button class="btn" id="n2" disabled onclick="go(3)">متابعة التحقيق</button>
+</section>
+
+<section class="stage" id="s3">
+  <div class="progress"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div>
+  <h2>The Evidence</h2>
+  <p class="center">اضغطي على كل بطاقة لكشف الدليل. افتحي الأدلة الثلاثة للمتابعة.</p>
+  <div class="ev" onclick="openEv(this)"><span>🔍 الدليل الأول: المكان</span><div hidden><b>المكان</b>كانت الرسالة مسجلة في مكان مزدحم وصاخب.</div></div>
+  <div class="ev" onclick="openEv(this)"><span>🔍 الدليل الثاني: مستوى الصوت</span><div hidden><b>مستوى الصوت</b>الأصوات المرتفعة والتعرض الطويل لها قد يضران بالسمع.</div></div>
+  <div class="ev" onclick="openEv(this)"><span>🔍 الدليل الثالث: الملاحظة</span><div hidden><b>الملاحظة</b>كان بإمكان صاحبة الرسالة الابتعاد عن مصدر الضوضاء واستخدام حماية السمع المناسبة.</div></div>
+  <button class="btn" id="evNext" disabled onclick="go(4)">حل القضية</button>
+</section>
+
+<section class="stage" id="s4">
+  <div class="progress"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div>
+  <h2>Solve the Case</h2>
+  <div class="hint" style="margin:0 0 8px">⚠ انتبهي: كل إجابة خاطئة تجعل سمعك أثقل!</div>
+  <div class="card q" data-a="1" data-msg="صحيح! الضوضاء غطّت على صوت المتحدث فصار فهم الرسالة صعبًا.">
+    <p><b>١) ما السبب الذي جعل فهم الرسالة صعبًا؟</b></p>
+    <button class="opt">الإضاءة الضعيفة.</button>
+    <button class="opt">الضوضاء التي غطّت على صوت المتحدث.</button>
+    <button class="opt">لون جهاز التسجيل.</button>
+    <div class="fb" hidden></div>
+  </div>
+  <div class="card q" data-a="1" data-msg="أحسنتِ! الابتعاد عن الضوضاء واستخدام حماية السمع عند الحاجة هو التصرف الأفضل.">
+    <p><b>٢) ما التصرف الأفضل لحماية السمع في الأماكن الصاخبة؟</b></p>
+    <button class="opt">رفع صوت السماعات.</button>
+    <button class="opt">الابتعاد عن مصدر الضوضاء واستخدام حماية السمع المناسبة عند الحاجة.</button>
+    <button class="opt">تجاهل ألم الأذن والطنين.</button>
+    <div class="fb" hidden></div>
+  </div>
+  <button class="btn" id="qNext" disabled onclick="go(5)">كشف الحقيقة</button>
+</section>
+
+<section class="stage" id="s5">
+  <div class="progress"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div>
+  <h2>Case Closed</h2>
+  <div class="card" style="min-height:260px">
+    <p id="truth"></p>
+    <div id="tips" hidden><b>نصائح قصيرة:</b>
+    <ul>
+      <li>خفض مستوى صوت السماعات.</li>
+      <li>الابتعاد عن مصادر الضوضاء العالية.</li>
+      <li>أخذ فترات راحة من التعرض للأصوات المرتفعة.</li>
+      <li>استخدام وسائل حماية السمع المناسبة.</li>
+    </ul></div>
+    <div class="stamp" id="stamp">CASE CLOSED</div>
+  </div>
+  <button class="btn" onclick="go(6)">استلام الشهادة</button>
+</section>
+
+<section class="stage" id="s6">
+  <div class="progress"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+  <div id="nameBox">
+    <h2>The Sound Detective</h2>
+    <p class="center">اكتبي اسمك ليُكتب على شهادتك:</p>
+    <input class="inp" id="nm" maxlength="30" placeholder="اسم المحققة">
+    <button class="btn" onclick="makeCert()">إصدار الشهادة</button>
+  </div>
+  <div id="certBox" hidden>
+    <div class="cert">
+      <div class="seal">🏅</div>
+      <div class="big">Congratulations!</div>
+      <div class="big">You are now a<br>SOUND DETECTIVE</div>
+      <div class="nm" id="cn"></div>
+      <p>لقد أكملتِ التحقيق واكتشفتِ أهمية المحافظة على حاسة السمع.</p>
+      <div style="font-size:.85rem;direction:ltr" id="cm"></div>
+    </div>
+    <button class="btn" id="saveBtn" onclick="saveCert()">⬇ حفظ الشهادة كصورة</button>
+    <button class="btn" onclick="location.reload()">إعادة التحقيق</button>
+  </div>
+</section>
+
+<div class="ft">جامعة الأميرة نورة بنت عبدالرحمن<br>اليوم العالمي لأخصائي السمع 2026 © جميع الحقوق محفوظة<br><span style="font-size:.68rem;opacity:.85;direction:ltr;unicode-bidi:isolate">By : Remas</span></div>
+
+</div>
+
+<script>
+var AC,master,lp,noiseG,noiseSrc,tin,dmg=0;
+function ctx(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();lp=AC.createBiquadFilter();lp.frequency.value=20000;master=AC.createGain();lp.connect(master);master.connect(AC.destination)}catch(e){}}
+  if(AC&&AC.state=="suspended")AC.resume();return AC}
+function tone(f,d,t,v){var c=ctx();if(!c)return;var o=c.createOscillator(),g=c.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=v||.08;o.connect(g);g.connect(lp);o.start();g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.stop(c.currentTime+d)}
+function click(){tone(180,.12,"square",.05);setTimeout(function(){tone(120,.1,"square",.04)},70)}
+function ding(){tone(880,.3,"sine",.08);setTimeout(function(){tone(1320,.4,"sine",.06)},120)}
+function buzz(){tone(110,.35,"sawtooth",.06)}
+function thud(){tone(70,.4,"square",.15)}
+
+/* flashlight */
+function mv(e){var p=e.touches?e.touches[0]:e;document.documentElement.style.setProperty("--x",p.clientX+"px");document.documentElement.style.setProperty("--y",p.clientY+"px")}
+addEventListener("mousemove",mv);addEventListener("touchmove",mv,{passive:true});addEventListener("touchstart",mv,{passive:true});
+
+/* typewriter */
+function tw(el,txt,cb,sp){var i=0;(function n(){el.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(n,sp||35);else if(cb)cb()})()}
+tw(document.getElementById("intro"),"«وصلتك رسالة لم يستطع أحد فهمها... هل تستطيعين كشف الحقيقة؟»");
+
+function go(n){click();document.querySelectorAll(".stage").forEach(function(s){s.classList.remove("on")});document.getElementById("s"+n).classList.add("on");document.body.classList.toggle("dim",n<=3);window.scrollTo(0,0);
+  if(n==2)drawVM();
+  if(n==5){var t=document.getElementById("truth");t.textContent="";document.getElementById("tips").hidden=true;
+    tw(t,"«لم تكن الرسالة مفقودة، بل كانت الضوضاء تحجب تفاصيلها. إن التعرض للأصوات المرتفعة لفترات طويلة قد يؤدي إلى تلف السمع، ولذلك من المهم المحافظة على الأذن وتجنب الضوضاء قدر الإمكان».",function(){document.getElementById("tips").hidden=false;var s=document.getElementById("stamp");s.classList.add("hit");setTimeout(thud,250)},22)}
+}
+
+/* stage 2: noise filter */
+var MSG="كنت أحاول أسمع النداء، لكن المكان كان صاخبًا جدًا. وبعدها لاحظت أن أذني تؤلمني. لا تتجاهلوا الأصوات العالية...";
+var words=MSG.split(" "),rnd=words.map(function(){return Math.random()}),noise=100,playing=false;
+function drawVM(){var h="";words.forEach(function(w,i){h+=(rnd[i]<noise/100*1.05&&noise>8)?"<s>"+w.replace(/./g,"▒")+"</s> ":w+" "});document.getElementById("vm").innerHTML="<b>رسالة من شخص مجهول:</b><br>"+h}
+function setNoise(v){noise=+v;drawVM();if(noiseG)noiseG.gain.value=.5*noise/100;if(noise<=8)document.getElementById("n2").disabled=false}
+function startNoise(){var c=ctx();if(!c||noiseSrc)return;var b=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=b.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  noiseSrc=c.createBufferSource();noiseSrc.buffer=b;noiseSrc.loop=true;var f=c.createBiquadFilter();f.type="lowpass";f.frequency.value=2600;noiseG=c.createGain();noiseG.gain.value=.5*noise/100;noiseSrc.connect(f);f.connect(noiseG);noiseG.connect(lp);noiseSrc.start()}
+function stopNoise(){if(noiseSrc){try{noiseSrc.stop()}catch(e){}noiseSrc=null}}
+function playVoice(){click();startNoise();var cs=document.getElementById("cass");cs.classList.add("play");setTimeout(function(){cs.classList.remove("play")},9000);
+  // لو أضفتِ ملف voicemail.mp3 بجانب index.html سيُشغَّل بدل الصوت الآلي
+  var a=new Audio("voicemail.mp3");
+  function tts(){if(window.speechSynthesis){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(MSG);u.lang="ar-SA";u.rate=.85;speechSynthesis.speak(u)}}
+  a.onerror=tts;a.play().catch(tts)}
+
+/* stage 3 */
+var opened=0;
+function openEv(el){if(el.classList.contains("open"))return;el.classList.add("open");el.firstElementChild.hidden=true;el.lastElementChild.hidden=false;ding();if(++opened>=3)document.getElementById("evNext").disabled=false}
+
+/* stage 4: muffled world */
+function applyDmg(){var L=Math.min(dmg,3);document.documentElement.style.setProperty("--blur",[0,1.5,3,4.5][L]+"px");
+  if(!AC)return;lp.frequency.value=[20000,3000,1200,600][L];master.gain.value=[1,.8,.6,.5][L];
+  if(dmg>0&&!tin){tin=AC.createOscillator();var g=AC.createGain();tin.frequency.value=7500;g.gain.value=.012*L;tin.connect(g);g.connect(AC.destination);tin.start();tin.g=g}
+  if(tin&&dmg>0)tin.g.gain.value=.012*L;
+  if(dmg==0&&tin){tin.stop();tin=null}}
+var answered=0;
+document.querySelectorAll(".q").forEach(function(q){
+  var opts=q.querySelectorAll(".opt"),fb=q.querySelector(".fb"),done=false;
+  opts.forEach(function(b,i){b.onclick=function(){
+    ctx();if(done)return;fb.hidden=false;
+    if(i==+q.dataset.a){done=true;b.classList.add("right");fb.textContent=q.dataset.msg+(dmg?" 🔔 عاد سمعك واضحًا!":"");dmg=0;applyDmg();ding();if(++answered>=2)document.getElementById("qNext").disabled=false}
+    else{b.classList.add("wrong");dmg++;applyDmg();buzz();fb.textContent="إجابة خاطئة... لاحظي كيف صار الصوت مكتومًا وظهر طنين في أذنك! حاولي مرة أخرى."}
+  }})});
+
+/* certificate */
+var CN="",CM="",CD="";
+function makeCert(){var n=document.getElementById("nm").value.trim();if(!n){document.getElementById("nm").focus();return}
+  stopNoise();CN=n;var d=new Date();CD=d.toLocaleDateString("en-GB");CM="CASE No. SD-"+(1000+Math.floor(Math.random()*9000))+"  ·  "+CD;
+  document.getElementById("cn").textContent=n;document.getElementById("cm").textContent=CM;
+  document.getElementById("nameBox").hidden=true;document.getElementById("certBox").hidden=false;ding();}
+function saveCert(){var c=document.createElement("canvas");c.width=900;c.height=1200;var x=c.getContext("2d");
+  x.fillStyle="#f3e6c4";x.fillRect(0,0,900,1200);x.strokeStyle="#d4a73a";x.lineWidth=8;x.strokeRect(30,30,840,1140);x.lineWidth=2;x.strokeRect(50,50,800,1100);
+  x.textAlign="center";x.direction="rtl";
+  function t(s,y,sz,col,b){x.font=(b?"bold ":"")+sz+"px Amiri,'Traditional Arabic',Georgia,serif";x.fillStyle=col;x.fillText(s,450,y)}
+  t("🏅",230,120,"#000");t("Congratulations!",360,68,"#7a4a12",1);t("You are now a",450,48,"#3a2616");t("SOUND DETECTIVE",540,76,"#7a4a12",1);
+  t(CN,700,66,"#3a2616",1);x.fillStyle="#d4a73a";x.fillRect(200,725,500,4);
+  t("لقد أكملتِ التحقيق",830,44,"#3a2616");t("واكتشفتِ أهمية المحافظة على حاسة السمع.",895,44,"#3a2616");
+  t(CM,1060,34,"#7a4a12");t("THE LAST VOICEMAIL",1110,30,"#3a2616",1);
+  c.toBlob(async function(b){var d=null;try{d=window.claude?await claude.use("downloads"):null}catch(e){}if(d){try{await d.save({filename:"sound-detective.png",data:b})}catch(e){}return}var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="sound-detective.png";document.body.appendChild(a);a.click();a.remove()})}
+</script>
+</body>
+</html>
